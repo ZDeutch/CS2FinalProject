@@ -13,7 +13,7 @@ public class Ball {
 
     public Ball() {
         barHeight = 100;
-        angle = 50;
+        angle = 270;
         isBarUp = true;
         isBarStopped = false;
         isAngleStopped = false;
@@ -24,7 +24,13 @@ public class Ball {
     public void draw(Graphics g) {
         g.drawImage(ball, 225, LongDriveFrontEnd.WINDOW_HEIGHT - 110, 25, 25, window);
         g.fillRect(100, 100, 20, this.barHeight);
-        g.drawLine(200,300 - angle,300,300);
+        strokeStyle(g);
+        g.drawLine(200,250, (int) ((40 * Math.cos(Math.toRadians(angle))) + 200), (int) ((40 * Math.sin(Math.toRadians(angle))) + 250));
+    }
+
+    public void strokeStyle(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(7));
     }
 
     public int getBarHeight() {
@@ -63,9 +69,9 @@ public class Ball {
         this.angle = angle;
     }
     public void determineAngleIsUp() {
-        if(angle >= 90) {
+        if(angle >= 360) {
             isAngleUp = false;
-        } else if(barHeight <= 0) {
+        } else if(angle <= 270) {
             isAngleUp = true;
         }
     }
