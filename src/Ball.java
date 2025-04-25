@@ -10,6 +10,11 @@ public class Ball {
     private int angle;
     private boolean isAngleStopped;
     private boolean isAngleUp;
+    private double x;
+    private double y;
+    public static final int TIME_INCREMENT = 2;
+    public static final int EARTH_GRAVITY = 10;
+    private double yVelocity;
 
     public Ball() {
         barHeight = 100;
@@ -19,13 +24,20 @@ public class Ball {
         isAngleStopped = false;
         isAngleUp = true;
         ball = new ImageIcon("Resources/Ball.png").getImage();
+        x = 225;
+        y = LongDriveFrontEnd.WINDOW_HEIGHT - 110;
+        yVelocity = barHeight;
     }
 
     public void draw(Graphics g) {
-        g.drawImage(ball, 225, LongDriveFrontEnd.WINDOW_HEIGHT - 110, 25, 25, window);
+        g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), 25, 25, window);
         g.fillRect(100, 100, 20, this.barHeight);
         strokeStyle(g);
-        g.drawLine(200,250, (int) ((40 * Math.cos(Math.toRadians(angle))) + 200), (int) ((40 * Math.sin(Math.toRadians(angle))) + 250));
+        g.drawLine(200, 250, (int) ((40 * Math.cos(Math.toRadians(angle))) + 200), (int) ((40 * Math.sin(Math.toRadians(angle))) + 250));
+    }
+
+    public void drawSecondScreen(Graphics g) {
+        g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), 25, 25, window);
     }
 
     public void strokeStyle(Graphics g) {
@@ -46,9 +58,9 @@ public class Ball {
     }
 
     public void determineBarIsUp() {
-        if(barHeight >= 200) {
+        if (barHeight >= 200) {
             isBarUp = false;
-        } else if(barHeight <= 0) {
+        } else if (barHeight <= 0) {
             isBarUp = true;
         }
     }
@@ -68,13 +80,15 @@ public class Ball {
     public void setAngle(int angle) {
         this.angle = angle;
     }
+
     public void determineAngleIsUp() {
-        if(angle >= 360) {
+        if (angle >= 360) {
             isAngleUp = false;
-        } else if(angle <= 270) {
+        } else if (angle <= 270) {
             isAngleUp = true;
         }
     }
+
     public void stopAngle(boolean stop) {
         isAngleStopped = stop;
     }
@@ -94,5 +108,35 @@ public class Ball {
     public void setAngleUp(boolean angleUp) {
         isAngleUp = angleUp;
     }
-}
 
+    public void propagateBall() {
+        x =  x + barHeight * Math.cos(Math.toRadians(angle)) * TIME_INCREMENT;
+        yVelocity -= (EARTH_GRAVITY * TIME_INCREMENT);
+        y = y + (yVelocity * TIME_INCREMENT);
+    }
+
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public double getyVelocity() {
+        return yVelocity;
+    }
+
+    public void setyVelocity(double yVelocity) {
+        this.yVelocity = yVelocity;
+    }
+}
