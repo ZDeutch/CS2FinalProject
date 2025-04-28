@@ -6,9 +6,9 @@ import java.awt.event.KeyListener;
 
 public class LongDrive implements ActionListener, KeyListener {
     private LongDriveFrontEnd window;
-    private Ball ball;
-    private static final int POWER_SPEED = 4;
-    private static final int ANGLE_SPEED = 4;
+    private final Ball ball;
+    private static final int POWER_SPEED = 110;
+    private static final int ANGLE_SPEED = 50;
     private static int state;
     private boolean zoomedInScreen;
 
@@ -22,7 +22,9 @@ public class LongDrive implements ActionListener, KeyListener {
 
     public void actionPerformed(ActionEvent e) {
         if(!isZoomedInScreen()) {
-            actionPerformedSecondScreen(e);
+            if((int) (ball.getY()) <= Ball.STARTING_Y) {
+                ball.propagateBall();
+            }
         } else {
             if (state == 0) {
                 if (!ball.getIsBarStopped()) {
@@ -43,13 +45,6 @@ public class LongDrive implements ActionListener, KeyListener {
                     }
                 }
             }
-            window.repaint();
-        }
-    }
-
-    public void actionPerformedSecondScreen(ActionEvent e) {
-        if(ball.getY() <= LongDriveFrontEnd.WINDOW_HEIGHT - 110) {
-            ball.propagateBall();
         }
         window.repaint();
     }
@@ -76,12 +71,6 @@ public class LongDrive implements ActionListener, KeyListener {
         this.zoomedInScreen = zoomedInScreen;
     }
 
-    public static void main(String[] args) {
-        LongDrive game = new LongDrive();
-        Timer clock = new Timer(POWER_SPEED, game);
-        clock.start();
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         if(state == 0) {
@@ -90,10 +79,11 @@ public class LongDrive implements ActionListener, KeyListener {
             state = 1;
         } else {
             ball.stopAngle(true);
+            ball.setVelocities();
             window.repaint();
             zoomedInScreen = false;
-            ball.setyVelocity(ball.getBarHeight() * Math.sin(Math.toRadians(ball.getAngle())));
         }
+
     }
 
     @Override
@@ -104,6 +94,12 @@ public class LongDrive implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public static void main(String[] args) {
+        LongDrive game = new LongDrive();
+        Timer clock = new Timer(POWER_SPEED, game);
+        clock.start();
     }
 }
 

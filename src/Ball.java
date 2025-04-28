@@ -4,45 +4,53 @@ import java.awt.*;
 public class Ball {
     private boolean isBarUp;
     private boolean isBarStopped;
-    private Image ball;
-    private LongDriveFrontEnd window;
+    private final Image ball;
     private int barHeight;
     private int angle;
     private boolean isAngleStopped;
     private boolean isAngleUp;
     private double x;
     private double y;
-    public static final int TIME_INCREMENT = 2;
-    public static final int EARTH_GRAVITY = 10;
+    public static final int TIME_INCREMENT = LongDriveFrontEnd.WINDOW_WIDTH / 400;
+    public static final int EARTH_GRAVITY = LongDriveFrontEnd.WINDOW_WIDTH / 80;
     private double yVelocity;
+    private double xVelocity;
+    public final static int STARTING_Y = LongDriveFrontEnd.WINDOW_HEIGHT - 110;
+    public final static int STARTING_X = 70;
+    public final static int BALLSTARTINGSIZE = LongDriveFrontEnd.WINDOW_WIDTH / 32;
+    public final static int MULTIPLIER = LongDriveFrontEnd.WINDOW_WIDTH / 20;
 
     public Ball() {
-        barHeight = 100;
+        barHeight = LongDriveFrontEnd.WINDOW_HEIGHT / 8;
         angle = 270;
         isBarUp = true;
         isBarStopped = false;
         isAngleStopped = false;
         isAngleUp = true;
         ball = new ImageIcon("Resources/Ball.png").getImage();
-        x = 225;
-        y = LongDriveFrontEnd.WINDOW_HEIGHT - 110;
-        yVelocity = barHeight;
+        x = STARTING_X * 3;
+        y = STARTING_Y;
+        yVelocity = 0;
+        xVelocity = 0;
     }
 
     public void draw(Graphics g) {
-        g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), 25, 25, window);
-        g.fillRect(100, 100, 20, this.barHeight);
+        g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE, BALLSTARTINGSIZE, null);
+        g.fillRect(LongDriveFrontEnd.WINDOW_WIDTH / 8, LongDriveFrontEnd.WINDOW_HEIGHT / 8, BALLSTARTINGSIZE, this.barHeight);
         strokeStyle(g);
-        g.drawLine(200, 250, (int) ((40 * Math.cos(Math.toRadians(angle))) + 200), (int) ((40 * Math.sin(Math.toRadians(angle))) + 250));
+    g.drawLine(LongDriveFrontEnd.WINDOW_WIDTH / 4, LongDriveFrontEnd.WINDOW_HEIGHT / 3, (int) ((MULTIPLIER *
+            Math.cos(Math.toRadians(angle))) + (LongDriveFrontEnd.WINDOW_WIDTH / 4)), (int) ((MULTIPLIER * Math.sin(Math.toRadians(angle))) +
+            (LongDriveFrontEnd.WINDOW_HEIGHT / 3)));
     }
 
     public void drawSecondScreen(Graphics g) {
-        g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), 25, 25, window);
+        setVelocities();
+        g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE / 2, BALLSTARTINGSIZE / 2, null);
     }
 
     public void strokeStyle(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(7));
+        g2d.setStroke(new BasicStroke(TIME_INCREMENT * 4));
     }
 
     public int getBarHeight() {
@@ -58,7 +66,7 @@ public class Ball {
     }
 
     public void determineBarIsUp() {
-        if (barHeight >= 200) {
+        if (barHeight >= LongDriveFrontEnd.WINDOW_WIDTH / 4) {
             isBarUp = false;
         } else if (barHeight <= 0) {
             isBarUp = true;
@@ -71,6 +79,7 @@ public class Ball {
 
     public void setIsBarStopped(boolean stopped) {
         isBarStopped = stopped;
+
     }
 
     public int getAngle() {
@@ -110,9 +119,14 @@ public class Ball {
     }
 
     public void propagateBall() {
-        x =  x + barHeight * Math.cos(Math.toRadians(angle)) * TIME_INCREMENT;
-        yVelocity -= (EARTH_GRAVITY * TIME_INCREMENT);
-        y = y + (yVelocity * TIME_INCREMENT);
+        x += xVelocity;
+        y += yVelocity;
+    }
+
+    public void setVelocities() {
+       yVelocity = (barHeight * Math.sin(Math.toRadians(angle))) / 10;
+       xVelocity = (barHeight * Math.cos(Math.toRadians(angle))) / 10;
+       System.out.println(xVelocity + " " + yVelocity);
     }
 
 
@@ -132,11 +146,11 @@ public class Ball {
         this.x = x;
     }
 
-    public double getyVelocity() {
+    public double getYVelocity() {
         return yVelocity;
     }
 
-    public void setyVelocity(double yVelocity) {
+    public void setYVelocity(double yVelocity) {
         this.yVelocity = yVelocity;
     }
 }
