@@ -120,13 +120,14 @@ public class Ball {
 
     public void propagateBall() {
         x += xVelocity;
+        yVelocity += 1;
         y += yVelocity;
     }
 
     public void setVelocities() {
-       yVelocity = (barHeight * Math.sin(Math.toRadians(angle))) / 10;
-       xVelocity = (barHeight * Math.cos(Math.toRadians(angle))) / 10;
-       System.out.println(xVelocity + " " + yVelocity);
+        System.out.println("yVelocity " + yVelocity);
+       yVelocity = ((barHeight * Math.sin(Math.toRadians(angle))) / 30);
+       xVelocity = (barHeight * Math.cos(Math.toRadians(angle))) / 30;
     }
 
 

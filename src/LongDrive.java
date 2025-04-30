@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 public class LongDrive implements ActionListener, KeyListener {
     private LongDriveFrontEnd window;
     private final Ball ball;
-    private static final int POWER_SPEED = 110;
+    private static final int POWER_SPEED = 10;
     private static final int ANGLE_SPEED = 50;
     private static int state;
     private boolean zoomedInScreen;
