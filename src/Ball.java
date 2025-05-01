@@ -44,7 +44,7 @@ public class Ball {
     }
 
     public void drawSecondScreen(Graphics g) {
-        setVelocities();
+//        setVelocities();
         g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE / 2, BALLSTARTINGSIZE / 2, null);
     }
 
@@ -120,7 +120,7 @@ public class Ball {
 
     public void propagateBall() {
         x += xVelocity;
-        yVelocity += 1;
+        yVelocity += 0.09;
         y += yVelocity;
     }
 

@@ -41,7 +41,7 @@ public class LongDriveFrontEnd extends JFrame {
         g.drawImage(secondBackground, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         g.drawImage(throughSwing,Ball.STARTING_X,WINDOW_HEIGHT - 150,WINDOW_WIDTH / 8, WINDOW_HEIGHT / 8, this);
         g.setColor(Color.BLACK);
-        System.out.println("method hit");
+//        System.out.println("method hit");
         ball.drawSecondScreen(g);
     }
 
