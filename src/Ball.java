@@ -15,12 +15,14 @@ public class Ball {
     public static final int EARTH_GRAVITY = LongDriveFrontEnd.WINDOW_WIDTH / 80;
     private double yVelocity;
     private double xVelocity;
-    public final static int STARTING_Y = LongDriveFrontEnd.WINDOW_HEIGHT - 110;
-    public final static int STARTING_X = 70;
-    public final static int BALLSTARTINGSIZE = LongDriveFrontEnd.WINDOW_WIDTH / 32;
+    public final static int STARTING_Y = LongDriveFrontEnd.WINDOW_HEIGHT - 105;
+    public final static int STARTING_X = 30;
+    public final static int BALLSTARTINGSIZE = LongDriveFrontEnd.WINDOW_WIDTH / 75;
     public final static int MULTIPLIER = LongDriveFrontEnd.WINDOW_WIDTH / 20;
+    private double yards;
 
     public Ball() {
+        yards = 0.0;
         barHeight = LongDriveFrontEnd.WINDOW_HEIGHT / 8;
         angle = 270;
         isBarUp = true;
@@ -38,14 +40,14 @@ public class Ball {
         g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE, BALLSTARTINGSIZE, null);
         g.fillRect(LongDriveFrontEnd.WINDOW_WIDTH / 8, LongDriveFrontEnd.WINDOW_HEIGHT / 8, BALLSTARTINGSIZE, this.barHeight);
         strokeStyle(g);
-    g.drawLine(LongDriveFrontEnd.WINDOW_WIDTH / 4, LongDriveFrontEnd.WINDOW_HEIGHT / 3, (int) ((MULTIPLIER *
-            Math.cos(Math.toRadians(angle))) + (LongDriveFrontEnd.WINDOW_WIDTH / 4)), (int) ((MULTIPLIER * Math.sin(Math.toRadians(angle))) +
-            (LongDriveFrontEnd.WINDOW_HEIGHT / 3)));
+        g.drawLine(LongDriveFrontEnd.WINDOW_WIDTH / 4, LongDriveFrontEnd.WINDOW_HEIGHT / 3, (int) ((MULTIPLIER *
+                Math.cos(Math.toRadians(angle))) + (LongDriveFrontEnd.WINDOW_WIDTH / 4)), (int) ((MULTIPLIER * Math.sin(Math.toRadians(angle))) +
+                (LongDriveFrontEnd.WINDOW_HEIGHT / 3)));
     }
 
     public void drawSecondScreen(Graphics g) {
-//        setVelocities();
         g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE / 2, BALLSTARTINGSIZE / 2, null);
+        g.drawString(getYards(), 100,100);
     }
 
     public void strokeStyle(Graphics g) {
@@ -120,14 +122,15 @@ public class Ball {
 
     public void propagateBall() {
         x += xVelocity;
-        yVelocity += 0.09;
+        yVelocity += 0.095;
         y += yVelocity;
+        yards = x - (STARTING_X * 3);
     }
 
     public void setVelocities() {
         System.out.println("yVelocity " + yVelocity);
-       yVelocity = ((barHeight * Math.sin(Math.toRadians(angle))) / 30);
-       xVelocity = (barHeight * Math.cos(Math.toRadians(angle))) / 30;
+        yVelocity = ((barHeight * Math.sin(Math.toRadians(angle))) / 30);
+        xVelocity = (barHeight * Math.cos(Math.toRadians(angle))) / 30;
     }
 
 
@@ -153,5 +156,9 @@ public class Ball {
 
     public void setYVelocity(double yVelocity) {
         this.yVelocity = yVelocity;
+    }
+
+    public String getYards() {
+        return "yards: " + yards;
     }
 }

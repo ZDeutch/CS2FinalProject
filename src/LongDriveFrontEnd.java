@@ -31,22 +31,22 @@ public class LongDriveFrontEnd extends JFrame {
         g.setColor(BACKGROUND);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g.drawImage(firstBackground, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-        g.drawImage(backSwing,Ball.STARTING_X,WINDOW_HEIGHT - 275,WINDOW_WIDTH / 4, WINDOW_HEIGHT / 4, this);
+        g.drawImage(backSwing, Ball.STARTING_X, WINDOW_HEIGHT - 125, WINDOW_WIDTH / 20, WINDOW_HEIGHT / 20, this);
         g.setColor(Color.BLACK);
         ball.draw(g);
     }
+
     public void gameScreen2(Graphics g) {
         g.setColor(BACKGROUND);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g.drawImage(secondBackground, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
-        g.drawImage(throughSwing,Ball.STARTING_X,WINDOW_HEIGHT - 150,WINDOW_WIDTH / 8, WINDOW_HEIGHT / 8, this);
+        g.drawImage(throughSwing, Ball.STARTING_X, WINDOW_HEIGHT - 125, WINDOW_WIDTH / 20, WINDOW_HEIGHT / 20, this);
         g.setColor(Color.BLACK);
-//        System.out.println("method hit");
         ball.drawSecondScreen(g);
     }
 
     public void paint(Graphics g) {
-        if(game.isZoomedInScreen()) {
+        if (game.isZoomedInScreen()) {
             gameScreen1(g);
         } else {
             gameScreen2(g);

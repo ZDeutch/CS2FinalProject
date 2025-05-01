@@ -21,8 +21,8 @@ public class LongDrive implements ActionListener, KeyListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(!isZoomedInScreen()) {
-            if((int) (ball.getY()) <= Ball.STARTING_Y) {
+        if (!isZoomedInScreen()) {
+            if ((int) (ball.getY()) <= Ball.STARTING_Y) {
                 ball.propagateBall();
             }
         } else {
@@ -57,7 +57,9 @@ public class LongDrive implements ActionListener, KeyListener {
         ball.setBarHeight(ball.getBarHeight() - 1);
     }
 
-    public void angleIncrement() { ball.setAngle(ball.getAngle() + 1); }
+    public void angleIncrement() {
+        ball.setAngle(ball.getAngle() + 1);
+    }
 
     public void angleDecrement() {
         ball.setAngle(ball.getAngle() - 1);
@@ -73,7 +75,7 @@ public class LongDrive implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if(state == 0) {
+        if (state == 0) {
             ball.setIsBarStopped(true);
             window.repaint();
             state = 1;
