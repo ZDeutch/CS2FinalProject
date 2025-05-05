@@ -20,8 +20,10 @@ public class Ball {
     public final static int BALLSTARTINGSIZE = LongDriveFrontEnd.WINDOW_WIDTH / 75;
     public final static int MULTIPLIER = LongDriveFrontEnd.WINDOW_WIDTH / 20;
     private double yards;
+    private int longestYards;
 
     public Ball() {
+        longestYards = 0;
         yards = 0.0;
         barHeight = LongDriveFrontEnd.WINDOW_HEIGHT / 8;
         angle = 270;
@@ -41,13 +43,16 @@ public class Ball {
         g.fillRect(LongDriveFrontEnd.WINDOW_WIDTH / 8, LongDriveFrontEnd.WINDOW_HEIGHT / 8, BALLSTARTINGSIZE, this.barHeight);
         strokeStyle(g);
         g.drawLine(LongDriveFrontEnd.WINDOW_WIDTH / 4, LongDriveFrontEnd.WINDOW_HEIGHT / 3, (int) ((MULTIPLIER *
-                Math.cos(Math.toRadians(angle))) + (LongDriveFrontEnd.WINDOW_WIDTH / 4)), (int) ((MULTIPLIER * Math.sin(Math.toRadians(angle))) +
-                (LongDriveFrontEnd.WINDOW_HEIGHT / 3)));
+                Math.cos(Math.toRadians(angle))) + ((double) LongDriveFrontEnd.WINDOW_WIDTH / 4)), (int) ((MULTIPLIER * Math.sin(Math.toRadians(angle))) +
+                ((double) LongDriveFrontEnd.WINDOW_HEIGHT / 3)));
     }
 
     public void drawSecondScreen(Graphics g) {
         g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE / 2, BALLSTARTINGSIZE / 2, null);
-        g.drawString(getYards(), 100,100);
+        strokeStyle(g);
+        g.drawString("Yards: " + getYards() / 3, 100,100);
+        longestYards = getYards();
+        g.drawString("Longest Drive: " + getLongestYards(), 100,150);
     }
 
     public void strokeStyle(Graphics g) {
@@ -158,7 +163,12 @@ public class Ball {
         this.yVelocity = yVelocity;
     }
 
-    public String getYards() {
-        return "yards: " + yards;
+
+    public int getYards() {
+        return (int) yards;
+    }
+
+    public int getLongestYards() {
+        return longestYards;
     }
 }
