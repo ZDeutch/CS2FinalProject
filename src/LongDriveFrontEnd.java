@@ -36,20 +36,40 @@ public class LongDriveFrontEnd extends JFrame {
         ball.draw(g);
     }
 
-    public void gameScreen2(Graphics g) {
+    public void gameScreen2(Graphics g, boolean gameIsOver) {
+
         g.setColor(BACKGROUND);
         g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         g.drawImage(secondBackground, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, this);
         g.drawImage(throughSwing, Ball.STARTING_X, WINDOW_HEIGHT - 125, WINDOW_WIDTH / 20, WINDOW_HEIGHT / 20, this);
         g.setColor(Color.BLACK);
         ball.drawSecondScreen(g);
+        if(gameIsOver) {
+            g.setColor(Color.BLACK);
+            drawCenteredString(g, "Click Any Key to Play Again", WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+        }
+    }
+
+    public static void drawCenteredString(Graphics g, String s, int x, int y) {
+
+        // Make the font red for prominence
+        Font headerFont = new Font("TIMES NEW ROMAN", Font.BOLD, WINDOW_WIDTH / 16);
+        g.setColor(Color.BLACK);
+        Font f = g.getFont();
+
+        //Get half of the string length using Font methods
+        int halfStringLength = g.getFontMetrics(f).stringWidth(s) / 2;
+
+        // Draw string on center of screen minus half the string length
+        g.drawString(s,x - halfStringLength, y);
     }
 
     public void paint(Graphics g) {
         if (game.isZoomedInScreen()) {
             gameScreen1(g);
         } else {
-            gameScreen2(g);
+
+            gameScreen2(g, LongDrive.getState() == 3);
         }
     }
 }

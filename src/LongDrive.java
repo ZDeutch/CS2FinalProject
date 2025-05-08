@@ -10,20 +10,22 @@ public class LongDrive implements ActionListener, KeyListener {
     private static final int POWER_SPEED = 10;
     private static final int ANGLE_SPEED = 50;
     private static int state;
-    private boolean zoomedInScreen;
 
     public LongDrive() {
         state = 0;
         ball = new Ball();
         window = new LongDriveFrontEnd(this, ball);
         window.addKeyListener(this);
-        zoomedInScreen = true;
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (!isZoomedInScreen()) {
+        if (state == 2) {
             if ((int) (ball.getY()) <= Ball.STARTING_Y) {
+                System.out.println("Y Value is :" + ball.getY());
+                System.out.println("Starting Y Value is :" + ball.STARTING_Y);
                 ball.propagateBall();
+            } else {
+                state = 3;
             }
         } else {
             if (state == 0) {
@@ -35,7 +37,7 @@ public class LongDrive implements ActionListener, KeyListener {
                         barDecrement();
                     }
                 }
-            } else {
+            } else if(state == 1){
                 if (!ball.isAngleStopped()) {
                     ball.determineAngleIsUp();
                     if (ball.isAngleUp()) {
@@ -66,11 +68,11 @@ public class LongDrive implements ActionListener, KeyListener {
     }
 
     public boolean isZoomedInScreen() {
-        return zoomedInScreen;
+        return state == 0 || state == 1;
     }
 
-    public void setZoomedInScreen(boolean zoomedInScreen) {
-        this.zoomedInScreen = zoomedInScreen;
+    public static int getState() {
+        return state;
     }
 
     @Override
@@ -79,13 +81,16 @@ public class LongDrive implements ActionListener, KeyListener {
             ball.setIsBarStopped(true);
             window.repaint();
             state = 1;
-        } else {
+        } else if(state == 1) {
             ball.stopAngle(true);
             ball.setVelocities();
             window.repaint();
-            zoomedInScreen = false;
+            state = 2;
+        } else if(state == 3){
+            state = 0;
+            ball.initializeScreen();
         }
-
+        window.repaint();
     }
 
     @Override

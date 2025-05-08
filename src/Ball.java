@@ -19,19 +19,24 @@ public class Ball {
     public final static int STARTING_X = 30;
     public final static int BALLSTARTINGSIZE = LongDriveFrontEnd.WINDOW_WIDTH / 75;
     public final static int MULTIPLIER = LongDriveFrontEnd.WINDOW_WIDTH / 20;
-    private double yards;
+    private double xDistance;
     private int longestYards;
-
+    private Font f;
+    ;
     public Ball() {
-        longestYards = 0;
-        yards = 0.0;
+        ball = new ImageIcon("Resources/Ball.png").getImage();
+        initializeScreen();
+    }
+
+    public void initializeScreen() {
+        f = new Font("serif", Font.PLAIN, 25);
+        xDistance = 0.0;
         barHeight = LongDriveFrontEnd.WINDOW_HEIGHT / 8;
         angle = 270;
         isBarUp = true;
         isBarStopped = false;
         isAngleStopped = false;
         isAngleUp = true;
-        ball = new ImageIcon("Resources/Ball.png").getImage();
         x = STARTING_X * 3;
         y = STARTING_Y;
         yVelocity = 0;
@@ -41,18 +46,21 @@ public class Ball {
     public void draw(Graphics g) {
         g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE, BALLSTARTINGSIZE, null);
         g.fillRect(LongDriveFrontEnd.WINDOW_WIDTH / 8, LongDriveFrontEnd.WINDOW_HEIGHT / 8, BALLSTARTINGSIZE, this.barHeight);
+        g.setFont(f);
+        LongDriveFrontEnd.drawCenteredString(g, "Bar Power: " + getBarHeight() / 10, LongDriveFrontEnd.WINDOW_WIDTH / 8, LongDriveFrontEnd.WINDOW_HEIGHT / 9);
         strokeStyle(g);
         g.drawLine(LongDriveFrontEnd.WINDOW_WIDTH / 4, LongDriveFrontEnd.WINDOW_HEIGHT / 3, (int) ((MULTIPLIER *
                 Math.cos(Math.toRadians(angle))) + ((double) LongDriveFrontEnd.WINDOW_WIDTH / 4)), (int) ((MULTIPLIER * Math.sin(Math.toRadians(angle))) +
                 ((double) LongDriveFrontEnd.WINDOW_HEIGHT / 3)));
+        LongDriveFrontEnd.drawCenteredString(g, "Angle Power: " + (360 - getAngle()), LongDriveFrontEnd.WINDOW_WIDTH / 4, LongDriveFrontEnd.WINDOW_HEIGHT / 5);
     }
 
     public void drawSecondScreen(Graphics g) {
         g.drawImage(ball, (int) Math.round(x), (int) Math.round(y), BALLSTARTINGSIZE / 2, BALLSTARTINGSIZE / 2, null);
         strokeStyle(g);
-        g.drawString("Yards: " + getYards() / 3, 100,100);
-        longestYards = getYards();
-        g.drawString("Longest Drive: " + getLongestYards(), 100,150);
+        g.setFont(f);
+        LongDriveFrontEnd.drawCenteredString(g, "Yards: " + getYards(), LongDriveFrontEnd.WINDOW_WIDTH / 2, LongDriveFrontEnd.WINDOW_HEIGHT / 9);
+        LongDriveFrontEnd.drawCenteredString(g, "Longest Drive: " + getLongestYards(), LongDriveFrontEnd.WINDOW_WIDTH / 2, LongDriveFrontEnd.WINDOW_HEIGHT / 6);
     }
 
     public void strokeStyle(Graphics g) {
@@ -129,7 +137,10 @@ public class Ball {
         x += xVelocity;
         yVelocity += 0.095;
         y += yVelocity;
-        yards = x - (STARTING_X * 3);
+        xDistance = x - (STARTING_X * 3);
+        if(getYards() > longestYards) {
+            longestYards = getYards();
+        }
     }
 
     public void setVelocities() {
@@ -165,7 +176,7 @@ public class Ball {
 
 
     public int getYards() {
-        return (int) yards;
+        return (int) xDistance / 3;
     }
 
     public int getLongestYards() {
